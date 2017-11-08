@@ -1,0 +1,30 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#topSpacer {
+  height: 1500px;
+  background: linear-gradient(blue, red);
+}
+
+#trigger {
+  height: 20px;
+  background-color: #f0f;
+}
+
+#bottomSpacer {
+  height: 1500px;
+  background: linear-gradient(green, yellow);
+}
+
+#output {
+  position: fixed;
+  background-color: white;
+  height: 20px;
+  left: 0;
+  top: 30px;
+  width: 100%;
+  text-align: center;
+}
