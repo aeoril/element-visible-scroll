@@ -5,31 +5,44 @@
 (function () {
   'use strict';
 
-  var rAFId = null;
   var prevOutput = null;
   var output;
 
   function setInnerText(elem, str) {
-     elem.innerText = str;
-     console.log(str);
+    elem.innerText = str;
+    console.log(str);
   }
 
-  function throttle (func, ...args) {
-    if (rAFId) {
-      cancelAnimationFrame(rAFId);
-    }
+  function throttle (func, duration) {
 
-    rAFId = window.requestAnimationFrame(function () {
-      func(...args);
-      rAFId = null;
-    });
+    var rAFId = null;
+    var prevNow = -1;
+
+    return function (...args) {
+      var now = performance.now();
+
+      if (prevNow !== -1 && now - prevNow < duration) {
+        return;
+      }
+
+      prevNow = now;
+
+      if (rAFId) {
+        window.cancelAnimationFrame(rAFId);
+      }
+
+      rAFId = window.requestAnimationFrame(function (timestamp) {
+        func(...args, timestamp);
+        rAFId = null;
+      });
+    };
   }
 
   window.addEventListener('load', function () {
     var triggerElem = document.getElementById("trigger");
     var outputElem = document.getElementById("output");
 
-    var throttledOutput = throttle.bind(null, setInnerText, outputElem);
+    var throttledOutput = throttle(setInnerText.bind(null, outputElem), 0);
 
     function scroll() {
       var triggerRect = triggerElem.getBoundingClientRect();
