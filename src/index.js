@@ -36,7 +36,7 @@
 
       if (triggerRect.bottom > 0 && triggerRect.top < (window.visualViewport ? window.visualViewport.height : window.innerHeight)) {
         output = 'Visible';
-  		} else {
+      } else {
         output = 'Not visible';
       }
       if (output !== prevOutput) {
