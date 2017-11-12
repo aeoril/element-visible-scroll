@@ -13,36 +13,11 @@
     console.log(str);
   }
 
-  function throttle (func, duration) {
-
-    var rAFId = null;
-    var prevNow = -1;
-
-    return function (...args) {
-      var now = performance.now();
-
-      if (prevNow !== -1 && now - prevNow < duration) {
-        return;
-      }
-
-      prevNow = now;
-
-      if (rAFId) {
-        window.cancelAnimationFrame(rAFId);
-      }
-
-      rAFId = window.requestAnimationFrame(function (timestamp) {
-        func(...args, timestamp);
-        rAFId = null;
-      });
-    };
-  }
-
   window.addEventListener('load', function () {
-    var triggerElem = document.getElementById("trigger");
-    var outputElem = document.getElementById("output");
+    var triggerElem = document.getElementById('trigger');
+    var outputElem = document.getElementById('output');
 
-    var throttledOutput = throttle(setInnerText.bind(null, outputElem), 0);
+    var rAFRateLimitedOutput = rAFRateLimit(setInnerText.bind(null, outputElem), 0);
 
     function scroll() {
       var triggerRect = triggerElem.getBoundingClientRect();
@@ -53,7 +28,7 @@
         output = 'Not visible';
       }
       if (output !== prevOutput) {
-        throttledOutput(output);
+        rAFRateLimitedOutput(output);
         prevOutput = output;
       }
     }
