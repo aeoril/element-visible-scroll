@@ -7,10 +7,12 @@
 
   var prevOutput = null;
   var output;
+  var scrolls = 0;
 
   function setInnerText(elem, str) {
     elem.innerText = str;
-    console.log(str);
+    console.log(str + ' ' + scrolls);
+    scrolls = 0;
   }
 
   window.addEventListener('load', function () {
@@ -27,14 +29,22 @@
       } else {
         output = 'Not visible';
       }
-      if (output !== prevOutput) {
+      //if (output !== prevOutput) {
+        scrolls++;
         rAFRateLimitedOutput(output);
         prevOutput = output;
-      }
+      //}
     }
 
     window.addEventListener('scroll', scroll, false);
 
     scroll();
+
+    outputElem.addEventListener('click', function () {
+
+      for (var ii = 0; ii < 100; ii++) {
+        scroll();
+      }
+    }, false);
   }, false);
 }());
