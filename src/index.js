@@ -49,4 +49,4 @@
 
     let rAFRateLimitedError = rAFRateLimit();
   }, false);
-}());
+})();
