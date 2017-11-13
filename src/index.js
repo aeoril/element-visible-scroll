@@ -9,8 +9,8 @@
   var output;
   var scrolls = 0;
 
-  function scroll() {
-    var triggerRect = scroll.args.triggerElem.getBoundingClientRect();
+  function scroll(triggerElem, outputElem, scrollsArg) {
+    var triggerRect = triggerElem.getBoundingClientRect();
 
     if (triggerRect.bottom > 0 && triggerRect.top < (window.visualViewport ? window.visualViewport.height : window.innerHeight)) {
       output = 'Visible';
@@ -18,8 +18,8 @@
       output = 'Not visible';
     }
     //if (output !== prevOutput) {
-      scroll.args.outputElem.innerText = output;
-      console.log(output + ' ' + scroll.args.scrolls);
+      outputElem.innerText = output;
+      console.log(output + ' ' + scrollsArg);
 
       //prevOutput = output;
     //}
@@ -27,24 +27,24 @@
     scrolls = 0;
   }
 
-  var rAFRateLimitedScroll = rAFRateLimit(scroll, 0);
-
   window.addEventListener('load', function () {
 
     var triggerElem = document.getElementById('trigger');
     var outputElem = document.getElementById('output');
 
+    var rAFRateLimitedScroll = rAFRateLimit(scroll.bind(null, triggerElem, outputElem));
+
     window.addEventListener('scroll', function () {
-      rAFRateLimitedScroll({ triggerElem: triggerElem, outputElem: outputElem, scrolls: ++scrolls });
+      rAFRateLimitedScroll(++scrolls);
     }, false);
 
     outputElem.addEventListener('click', function () {
 
       for (var ii = 0; ii < 10000; ii++) {
-        rAFRateLimitedScroll({ triggerElem: triggerElem, outputElem: outputElem, scrolls: ++scrolls });
+        rAFRateLimitedScroll(++scrolls);
       }
     }, false);
-    
-    rAFRateLimitedScroll({ triggerElem: triggerElem, outputElem: outputElem, scrolls: ++scrolls });
+
+    rAFRateLimitedScroll(++scrolls);
   }, false);
 }());
