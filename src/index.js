@@ -47,6 +47,6 @@
 
     rAFRateLimitedScroll(++scrolls);
 
-    let rAFRateLimitedError = rAFRateLimit();
+    // let rAFRateLimitedError = rAFRateLimit();
   }, false);
 })();
